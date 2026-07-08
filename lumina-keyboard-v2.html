@@ -1,0 +1,732 @@
+<!--
+  ═══════════════════════════════════════════════════════
+
+  LÉGENDE DES IMAGES | cherche ces repères dans le fichier
+
+  ═══════════════════════════════════════════════════════
+
+  LOGO         : https://i.imgur.com/lbxd82K.png   (utilisé 3 fois : nav, hero, téléchargement)
+  IMAGE 1      : https://i.imgur.com/Sv5wAvl.png   (Accueil & activation)
+  IMAGE 2      : https://i.imgur.com/KxVZEm6.png   (Fonds prédéfinis)
+  IMAGE 3      : https://i.imgur.com/Xf4cjPn.png   (Réglages & style d'écriture)
+  Pour changer une image : remplace juste l'URL dans le src="..." correspondant.
+
+  
+  ═══════════════════════════════════════════════════════
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumina Keyboard | Écris avec douceur ♡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,500;1,700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fff6f9;
+  --bg-alt:#ffeaf2;
+  --panel:#ffffff;
+  --pink:#ff6fa0;
+  --pink-deep:#e8477e;
+  --pink-soft:#ffd6e8;
+  --gold:#c9972e;
+  --gold-light:#e8c77a;
+  --lav:#c9a8e9;
+  --plum:#5c3a52;
+  --muted:#a9748f;
+  --line:#ffd9e9;
+}
+body{background:var(--bg);color:var(--plum);font-family:'Quicksand',sans-serif;overflow-x:hidden;-webkit-user-select:none;user-select:none}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--pink-soft);border-radius:4px}
+#lumina-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:0;transition:opacity .3s}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:64px;background:rgba(255,246,249,0);border-bottom:1px solid transparent;transition:all .4s}
+nav.scrolled{background:rgba(255,246,249,.88);border-color:var(--line);backdrop-filter:blur(12px)}
+.nav-brand{font-family:'Playfair Display',serif;font-weight:700;font-size:20px;letter-spacing:.04em;color:var(--pink-deep);display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-brand img{width:26px;height:26px;border-radius:50%;box-shadow:0 0 10px #ff6fa055}
+.nav-links{display:flex;align-items:center;gap:1.6rem;list-style:none}
+.nav-links a{font-family:'Quicksand',sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.03em;color:var(--muted);text-decoration:none;transition:color .2s;white-space:nowrap}
+.nav-links a:hover{color:var(--pink-deep)}
+.nav-dl{padding:8px 18px;border-radius:20px;border:1.5px solid var(--pink);color:var(--pink-deep)!important;transition:all .3s!important}
+.nav-dl:hover{background:var(--pink);color:#fff!important;border-color:var(--pink)}
+
+/* HERO */
+section{position:relative;z-index:1}
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem 2rem 5rem}
+.hero-eyebrow{font-family:'Quicksand',sans-serif;font-weight:600;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--pink);margin-bottom:2.2rem;opacity:0;animation:fadeUp .8s .3s forwards}
+.hero-logo-wrap{position:relative;margin-bottom:2rem;opacity:0;animation:fadeUp .8s .5s forwards}
+.hero-logo-bubble{width:180px;height:180px;border-radius:50%;position:relative;margin:0 auto;display:flex;align-items:center;justify-content:center;animation:bubbleFloat 6s ease-in-out infinite}
+.bubble-ring{position:absolute;inset:0;border-radius:50%;border:1px solid #ff9dc255;animation:ringPulse 3s ease-in-out infinite}
+.bubble-ring:nth-child(2){inset:-14px;border-color:#e8c77a55;animation-delay:.5s;animation-duration:3.5s}
+.bubble-ring:nth-child(3){inset:-30px;border-color:#c9a8e94a;animation-delay:1s;animation-duration:4s}
+.bubble-glow{position:absolute;inset:-24px;border-radius:50%;background:radial-gradient(circle,#ff9dc233 0%,transparent 70%);animation:glowPulse 3s ease-in-out infinite}
+.hero-logo-img{width:140px;height:140px;object-fit:contain;position:relative;z-index:1;border-radius:38px;filter:drop-shadow(0 0 20px #ff6fa066) drop-shadow(0 0 40px #e8c77a44);animation:logoGlow 4s ease-in-out infinite}
+@keyframes logoGlow{0%,100%{filter:drop-shadow(0 0 20px #ff6fa066) drop-shadow(0 0 40px #e8c77a44)}50%{filter:drop-shadow(0 0 32px #ff85af) drop-shadow(0 0 60px #e8c77a66)}}
+@keyframes bubbleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes ringPulse{0%,100%{opacity:.8;transform:scale(1)}50%{opacity:.35;transform:scale(1.05)}}
+@keyframes glowPulse{0%,100%{opacity:.6}50%{opacity:1}}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(3.2rem,9vw,6.4rem);font-weight:900;line-height:1;letter-spacing:.01em;color:var(--pink-deep);margin-bottom:.6rem;opacity:0;animation:fadeUp .8s .7s forwards}
+.hero-title .gold{color:transparent;background:linear-gradient(135deg,#c9972e 0%,#e8c77a 55%,#f6dfa4 100%);-webkit-background-clip:text;background-clip:text}
+.hero-tagline-row{display:flex;align-items:center;justify-content:center;gap:1.1rem;margin-bottom:1.8rem;font-family:'Quicksand',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;opacity:0;animation:fadeUp .8s .9s forwards}
+.tg{color:var(--muted)}.tg.b{color:var(--pink-deep)}.tg.r{color:var(--lav)}.tg-sep{color:var(--pink-soft)}
+.hero-sub{font-size:16px;color:var(--muted);font-weight:500;max-width:520px;line-height:1.8;margin:0 auto 2.6rem;opacity:0;animation:fadeUp .8s 1.1s forwards}
+.hero-cta{display:flex;align-items:center;gap:1.1rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp .8s 1.3s forwards}
+.btn-main{display:inline-flex;align-items:center;gap:10px;font-family:'Quicksand',sans-serif;font-size:13px;font-weight:700;letter-spacing:.04em;padding:15px 32px;background:linear-gradient(135deg,#ff6fa0,#e8477e);color:#fff;border:none;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s;border-radius:30px;animation:btnPulse 4s ease-in-out infinite}
+@keyframes btnPulse{0%,100%{box-shadow:0 0 0 0 #ff6fa055}50%{box-shadow:0 0 0 14px #ff6fa000}}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 10px 30px #ff6fa066;animation:none}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;font-family:'Quicksand',sans-serif;font-weight:700;font-size:13px;letter-spacing:.02em;padding:14px 26px;border:1.5px solid var(--pink-soft);color:var(--pink-deep);cursor:pointer;text-decoration:none;transition:all .3s;background:#fff;border-radius:30px}
+.btn-secondary:hover{border-color:var(--pink);background:#fff0f5}
+.dl-note{font-family:'Quicksand',sans-serif;font-size:10.5px;letter-spacing:.05em;color:var(--muted);margin-top:.6rem}
+.hero-badges{display:flex;align-items:center;justify-content:center;gap:1.8rem;margin-top:2.6rem;flex-wrap:wrap;opacity:0;animation:fadeUp .8s 1.5s forwards}
+.badge{display:flex;align-items:center;gap:7px;font-family:'Quicksand',sans-serif;font-weight:600;font-size:10.5px;letter-spacing:.04em;color:var(--muted)}
+.badge::before{content:'♡';color:var(--pink);font-size:11px}
+.scroll-arrow{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fadeUp .8s 2s forwards}
+.scroll-arrow span{font-family:'Quicksand',sans-serif;font-weight:600;font-size:10px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.sa-chevron{width:14px;height:14px;border-right:1.5px solid var(--pink);border-bottom:1.5px solid var(--pink);transform:rotate(45deg);animation:chevBounce 1.5s infinite}
+@keyframes chevBounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION LABELS */
+.section-label{font-family:'Quicksand',sans-serif;font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--pink);margin-bottom:1rem;text-align:center}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.01em;color:var(--pink-deep);text-align:center;margin-bottom:.75rem}
+.section-sub{text-align:center;color:var(--muted);font-size:14px;line-height:1.8;margin-bottom:3.5rem;max-width:520px;margin-left:auto;margin-right:auto}
+
+/* GÉNÉRIQUE */
+#generique{padding:5rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:var(--bg-alt)}
+.gen-mask{position:relative;height:340px;overflow:hidden;display:flex;justify-content:center}
+.gen-mask::before,.gen-mask::after{content:'';position:absolute;left:0;right:0;z-index:2;height:100px;pointer-events:none}
+.gen-mask::before{top:0;background:linear-gradient(to bottom,var(--bg-alt),transparent)}
+.gen-mask::after{bottom:0;background:linear-gradient(to top,var(--bg-alt),transparent)}
+.gen-track{display:flex;flex-direction:column;align-items:center;gap:0;will-change:transform;transform:translateY(0)}
+.gen-line{padding:9px 0;font-family:'Quicksand',sans-serif;font-weight:500;text-align:center;line-height:1.8;color:#d9a5bd;font-size:13px;width:640px;max-width:92vw}
+.gen-line.hi{color:#c9749a;font-size:14px}
+.gen-line.major{color:var(--pink-deep);font-weight:700;font-size:16px;letter-spacing:.01em;padding:14px 0;font-family:'Playfair Display',serif}
+.gen-sep{height:36px;display:flex;align-items:center;justify-content:center;color:#f0c3d6;font-size:16px;letter-spacing:.6em}
+
+/* POURQUOI */
+#pourquoi{padding:6rem 2rem;max-width:1100px;margin:0 auto}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-top:0;border-radius:18px;overflow:hidden}
+.why-card{background:var(--panel);padding:2.2rem;position:relative;transition:background .3s}
+.why-card:hover{background:#fff6f9}
+.why-icon{font-size:28px;margin-bottom:1rem;line-height:1}
+.why-title{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;letter-spacing:.01em;color:var(--pink-deep);margin-bottom:.6rem}
+.why-desc{font-size:13px;color:var(--muted);line-height:1.8}
+
+/* FEATURES */
+#features{padding:6rem 2rem;max-width:1200px;margin:0 auto}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-radius:18px;overflow:hidden}
+.feat-card{background:var(--panel);padding:2.4rem;position:relative;overflow:hidden;opacity:0;transform:translateY(30px);transition:background .3s;display:flex;flex-direction:column}
+.feat-card.visible{animation:cardIn .6s forwards}
+@keyframes cardIn{to{opacity:1;transform:translateY(0)}}
+.feat-card:hover{background:#fff6f9}
+.fc-icon{font-size:26px;margin-bottom:1.4rem}
+.fc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;letter-spacing:.01em;color:var(--pink-deep);margin-bottom:.7rem}
+.fc-desc{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:1.4rem}
+.fc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.4rem}
+.fc-tag{font-family:'Quicksand',sans-serif;font-weight:600;font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:20px;border:1px solid var(--pink-soft);color:var(--pink-deep)}
+.kawaii-console{background:#fff0f6;border-radius:12px;padding:.9rem 1rem;position:relative;margin-top:auto;border:1px solid var(--pink-soft)}
+.kawaii-console::before{content:attr(data-label);position:absolute;top:-9px;left:10px;font-family:'Quicksand',sans-serif;font-weight:700;font-size:8.5px;letter-spacing:.06em;color:var(--pink);background:#fff0f6;padding:0 6px;border-radius:6px}
+.tline{font-family:'Quicksand',sans-serif;font-weight:500;font-size:11.5px;line-height:1.9;color:#c98aa9}
+.tline .p{color:var(--pink-deep);font-weight:700}.tline.ok{color:#6a9a7c}.tline.warn{color:#c99a4a}.tline.info{color:#9a86c9}
+.cursor{display:inline-block;width:6px;height:12px;background:var(--pink);animation:blink 1s step-end infinite;vertical-align:text-bottom;border-radius:1px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* STYLE TRANSFORMER */
+#styletool{padding:6rem 2rem;max-width:900px;margin:0 auto}
+.style-box{background:#fff;border-radius:22px;border:1px solid var(--line);padding:2.5rem;margin-top:2rem;position:relative;box-shadow:0 20px 50px #ff6fa014}
+.style-box::before{content:'✨ ESSAIE UN STYLE ✨';position:absolute;top:-13px;left:24px;font-family:'Quicksand',sans-serif;font-weight:700;font-size:10px;letter-spacing:.12em;color:var(--pink);background:#fff;padding:0 12px;border-radius:8px}
+.style-input{width:100%;font-family:'Quicksand',sans-serif;font-weight:600;font-size:15px;color:var(--plum);background:var(--bg-alt);border:1.5px solid var(--pink-soft);border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.4rem;outline:none;transition:border-color .2s}
+.style-input:focus{border-color:var(--pink)}
+.style-tabs{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.6rem}
+.style-tab{font-family:'Quicksand',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.02em;padding:9px 18px;border-radius:20px;border:1.5px solid var(--pink-soft);color:var(--pink-deep);background:#fff;cursor:pointer;transition:all .2s}
+.style-tab.active,.style-tab:hover{background:var(--pink);color:#fff;border-color:var(--pink)}
+.style-output{font-family:'Quicksand',sans-serif;font-size:20px;letter-spacing:.02em;color:var(--pink-deep);background:var(--bg-alt);border-radius:14px;padding:1.5rem 1.6rem;min-height:70px;display:flex;align-items:center;word-break:break-all;border-left:4px solid var(--pink);position:relative;padding-right:100px}
+.style-copy{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:'Quicksand',sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.03em;color:var(--pink-deep);cursor:pointer;padding:7px 14px;border:1.5px solid var(--pink-soft);border-radius:20px;background:#fff;transition:all .2s;white-space:nowrap}
+.style-copy:hover{background:var(--pink);color:#fff;border-color:var(--pink)}
+
+/* GALLERY */
+#gallery{padding:6rem 2rem;max-width:1200px;margin:0 auto}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6rem}
+.phone-card{text-align:center}
+.phone-frame{border-radius:26px;border:7px solid #fff;box-shadow:0 20px 45px #e8477e22;overflow:hidden;background:#000;transition:transform .3s,box-shadow .3s}
+.phone-card:nth-child(odd) .phone-frame{transform:rotate(-2deg)}
+.phone-card:nth-child(even) .phone-frame{transform:rotate(2deg)}
+.phone-card:hover .phone-frame{transform:rotate(0) translateY(-6px);box-shadow:0 26px 55px #e8477e33}
+.phone-frame img{width:100%;display:block}
+.phone-caption{font-family:'Quicksand',sans-serif;font-weight:600;font-size:12px;color:var(--muted);margin-top:1rem}
+.chip-card{background:linear-gradient(160deg,#fff0f6,#f6ecff);border:7px solid #fff;border-radius:26px;box-shadow:0 20px 45px #e8477e22;padding:1.6rem 1.2rem;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .3s,box-shadow .3s}
+.phone-card:hover .chip-card{transform:translateY(-6px);box-shadow:0 26px 55px #e8477e33}
+.chip-card-icon{font-size:26px;margin-bottom:.6rem}
+.chip-card-title{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;color:var(--pink-deep);margin-bottom:1rem}
+.chip-list{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.chip{font-family:'Quicksand',sans-serif;font-weight:600;font-size:10.5px;letter-spacing:.02em;padding:5px 11px;border-radius:20px;background:#fff;color:var(--pink-deep);border:1px solid var(--pink-soft)}
+
+/* INSTALL STRIP */
+.install-strip{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-alt);position:relative;z-index:1}
+.strip-label{font-family:'Quicksand',sans-serif;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink);margin-bottom:1.5rem}
+.strip-grid{display:flex;justify-content:center;gap:4rem;flex-wrap:wrap;max-width:900px;margin:0 auto}
+.strip-item .val{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--pink-deep);margin-bottom:.3rem;line-height:1}
+.strip-item .lbl{font-family:'Quicksand',sans-serif;font-weight:600;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* FAQ */
+#faq{padding:6rem 2rem;max-width:800px;margin:0 auto}
+.faq-list{margin-top:2rem}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{width:100%;background:none;border:none;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 0;font-family:'Quicksand',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.01em;color:var(--pink-deep);cursor:pointer;text-align:left;gap:1rem;transition:color .2s}
+.faq-q:hover{color:var(--pink)}
+.faq-icon{font-size:18px;flex-shrink:0;transition:transform .3s;color:var(--pink-soft)}
+.faq-item.open .faq-icon{transform:rotate(45deg);color:var(--pink)}
+.faq-a{font-size:13.5px;color:var(--muted);line-height:1.8;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;font-family:'Quicksand',sans-serif;font-weight:500}
+.faq-item.open .faq-a{max-height:220px;padding-bottom:1.2rem}
+
+/* DOWNLOAD */
+#download{padding:8rem 2rem;text-align:center;background:linear-gradient(to bottom,var(--bg),#fff0f6,var(--bg))}
+#download::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,#ff6fa014,transparent 70%);pointer-events:none}
+.dl-card{max-width:640px;margin:3rem auto 0;background:#fff;border:1px solid var(--line);border-radius:28px;position:relative;overflow:hidden;box-shadow:0 30px 70px #e8477e1a}
+.dl-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--pink),var(--gold-light),var(--lav))}
+.dl-body{padding:3.2rem 2.5rem}
+.dl-logo-small{width:88px;height:88px;object-fit:contain;border-radius:26px;margin:0 auto 1.4rem;display:block;filter:drop-shadow(0 0 20px #ff6fa055);animation:bubbleFloat 6s ease-in-out infinite}
+.dl-name{font-family:'Playfair Display',serif;font-weight:900;font-size:30px;letter-spacing:.01em;color:var(--pink-deep);margin-bottom:.3rem}
+.dl-ver{font-family:'Quicksand',sans-serif;font-weight:600;font-size:10px;letter-spacing:.1em;color:var(--muted);margin-bottom:2rem;text-transform:uppercase}
+.dl-desc{font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:2.2rem}
+.dl-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-dl{display:inline-flex;align-items:center;gap:10px;font-family:'Quicksand',sans-serif;font-size:13.5px;font-weight:700;letter-spacing:.02em;padding:16px 30px;background:linear-gradient(135deg,#ff6fa0,#e8477e);color:#fff;border:none;cursor:pointer;text-decoration:none;border-radius:16px;animation:dlPulse 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
+.btn-dl.alt{background:linear-gradient(135deg,#2a2a2a,#000)}
+@keyframes dlPulse{0%,100%{box-shadow:0 0 0 0 #ff6fa044}50%{box-shadow:0 0 0 14px #ff6fa000}}
+.btn-dl:hover{transform:translateY(-3px);box-shadow:0 16px 40px #ff6fa055;animation:none}
+.dl-meta{display:flex;align-items:center;justify-content:center;gap:1.4rem;margin-top:1.6rem;flex-wrap:wrap}
+.dl-meta span{font-family:'Quicksand',sans-serif;font-weight:600;font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.dl-meta span::before{content:'♡ ';color:var(--pink)}
+
+
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:3.5rem 2rem;text-align:center}
+.footer-brand{font-family:'Playfair Display',serif;font-weight:900;font-size:22px;letter-spacing:.02em;color:var(--pink-deep);margin-bottom:.4rem}
+.footer-sub{font-family:'Quicksand',sans-serif;font-weight:600;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem}
+.footer-links{display:flex;justify-content:center;gap:2.2rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.footer-links a{font-family:'Quicksand',sans-serif;font-weight:600;font-size:11px;letter-spacing:.03em;color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--pink-deep)}
+.footer-copy{font-family:'Quicksand',sans-serif;font-size:10.5px;color:#d9a8c0}
+
+@media(max-width:900px){
+  .why-grid{grid-template-columns:1fr 1fr}
+  .features-grid{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .nav-links{display:none}
+  .why-grid,.gallery-grid{grid-template-columns:1fr}
+  .strip-grid{gap:2rem}
+  .style-output{padding-right:1.6rem;flex-wrap:wrap;gap:.8rem}
+  .style-copy{position:static;transform:none}
+}
+</style>
+</head>
+<body>
+<canvas id="lumina-canvas"></canvas>
+<canvas id="confetti-canvas"></canvas>
+
+<nav id="nav">
+  <a href="#hero" class="nav-brand"><img src="https://i.imgur.com/lbxd82K.png" alt="Lumina"> LUMINA</a>
+  <ul class="nav-links">
+    <li><a href="#features">Fonctionnalités</a></li>
+    <li><a href="#styletool">Styles</a></li>
+    <li><a href="#gallery">Aperçu</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#download" class="nav-dl">↓ Télécharger</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-eyebrow">✨ Clavier iOS &amp; Android · Coquette Aesthetic 2026</div>
+  <div class="hero-logo-wrap">
+    <div class="hero-logo-bubble">
+      <div class="bubble-ring"></div><div class="bubble-ring"></div><div class="bubble-ring"></div>
+      <div class="bubble-glow"></div>
+      <img src="https://i.imgur.com/lbxd82K.png" alt="Logo Lumina Keyboard" class="hero-logo-img">
+    </div>
+  </div>
+  <h1 class="hero-title">Lumina <span class="gold">Keyboard</span></h1>
+  <div class="hero-tagline-row"><span class="tg b">Kawaii</span><span class="tg-sep">·</span><span class="tg">Coquette</span><span class="tg-sep">·</span><span class="tg r">Girly</span></div>
+  <p class="hero-sub">Le clavier qui transforme chaque message en petit moment mignon : styles d'écriture magiques, thèmes pastel, cœurs animés et plein de petits bonus qui font plaisir.</p>
+  <div class="hero-cta">
+    <a href="#download" class="btn-main">✨ Télécharger Lumina</a>
+    <a href="#styletool" class="btn-secondary">Essayer un style d'écriture</a>
+  </div>
+  <div class="dl-note">Disponible sur IOS et Android</div>
+  <div class="hero-badges">
+    <span class="badge">100% gratuite</span>
+    <span class="badge">Sans pub intrusive</span>
+    <span class="badge">Micro utilisé uniquement pour la dictée</span>
+  </div>
+  <div class="scroll-arrow"><span>Découvrir</span><div class="sa-chevron"></div></div>
+</section>
+
+<!-- GÉNÉRIQUE -->
+<section id="generique">
+  <div class="gen-mask">
+    <div class="gen-track" id="gen-track">
+      <div class="gen-sep">| ♡ |</div>
+      <div class="gen-line major">Un clavier pensé pour celles</div>
+      <div class="gen-line major">qui veulent un peu de douceur</div>
+      <div class="gen-line major">dans chaque message envoyé.</div>
+      <div class="gen-sep">· ✧ ·</div>
+      <div class="gen-line hi">Lumina est né d'une idée simple :</div>
+      <div class="gen-line hi">ton clavier devrait te ressembler.</div>
+      <div class="gen-sep">· ✧ ·</div>
+      <div class="gen-line hi">Pas un clavier gris, générique, sans âme.</div>
+      <div class="gen-line hi">Pas un thème payant à chaque coin de menu.</div>
+      <div class="gen-line hi">Pas des styles d'écriture compliqués à trouver.</div>
+      <div class="gen-sep">| ♡ |</div>
+      <div class="gen-line major">Un clavier. Plein de styles. Une seule ambiance.</div>
+      <div class="gen-sep">· ✧ ·</div>
+      <div class="gen-line hi">Styles d'écriture en un tap </div>
+      <div class="gen-line hi">Gras, bulle, script, capitales fines...</div>
+      <div class="gen-line">Chaque texto devient un peu plus toi.</div>
+      <div class="gen-sep">· ✧ ·</div>
+      <div class="gen-line hi">Thèmes coquette personnalisables </div>
+      <div class="gen-line hi">Fonds pastel, bokeh, ou ta propre photo.</div>
+      <div class="gen-line">Ton clavier, ton mood du jour.</div>
+      <div class="gen-sep">| ♡ |</div>
+    </div>
+  </div>
+</section>
+
+<!-- POURQUOI -->
+<section id="pourquoi">
+  <div class="section-label">// Pourquoi Lumina</div>
+  <h2 class="section-title">Six raisons de craquer</h2>
+  <p class="section-sub">Lumina n'est pas un clavier de plus. C'est un univers pastel entier, pensé dans les moindres détails.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">🌙</div>
+      <div class="why-title">Design 100% kawaii</div>
+      <div class="why-desc">Une esthétique pastel cohérente du premier écran jusqu'à la moindre touche: dorures douces, bokeh, petits cœurs partout.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">✒️</div>
+      <div class="why-title">Styles d'écriture magiques</div>
+      <div class="why-desc">Transforme ton texte en gras, en bulle, en script ou en petites capitales fines, directement depuis le clavier.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🎀</div>
+      <div class="why-title">Thèmes illimités</div>
+      <div class="why-desc">Des fonds signature comme Sakura Dream ou Baby Blue Bow, ou ta propre photo en arrière-plan de clavier.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">✨</div>
+      <div class="why-title">Des petits détails en plus</div>
+      <div class="why-desc">Sons kawaii, vibration douce sur les touches, animations de cœurs: de quoi rendre chaque frappe agréable.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🔒</div>
+      <div class="why-title">Respect de ta vie privée</div>
+      <div class="why-desc">Le micro n'est utilisé que pour la dictée vocale, rien d'autre. Aucune donnée tapée n'est collectée en douce.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🩷</div>
+      <div class="why-title">100% gratuite</div>
+      <div class="why-desc">Tous les thèmes, tous les styles d'écriture et tous les petits bonus sont inclus, sans abonnement, sans achat caché et sans carte bancaire.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-label">// Ce que Lumina fait pour toi</div>
+  <h2 class="section-title">Trois univers, un seul clavier</h2>
+  <p class="section-sub">Chaque module est pensé pour être mignon, simple, et personnalisable.</p>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="fc-icon">✒️</div>
+      <div class="fc-title">Styles d'écriture</div>
+      <div class="fc-desc">Écris normalement, puis change de style en un tap : gras romantique, lettres bulle, script élégant ou petites capitales. Parfait pour les bios, les messages ou les stories.</div>
+      <div class="fc-tags"><span class="fc-tag">Bold</span><span class="fc-tag">Bubble</span><span class="fc-tag">Script</span></div>
+      <div class="kawaii-console" data-label="lumina.style">
+        <div class="tline"><span class="p">›</span> lumina style --preview</div>
+        <div class="tline info" id="t1l1">&nbsp;</div>
+        <div class="tline warn" id="t1l2">&nbsp;</div>
+        <div class="tline ok" id="t1l3">&nbsp;</div>
+      </div>
+    </div>
+    <div class="feat-card">
+      <div class="fc-icon">🎀</div>
+      <div class="fc-title">Thèmes &amp; fonds coquette</div>
+      <div class="fc-desc">Choisis parmi les fonds signature (Sakura Dream, Rose Gloss, Lavender Sky...) ou importe ta propre photo. Ajuste l'opacité, le flou bokeh et l'intensité des particules.</div>
+      <div class="fc-tags"><span class="fc-tag">6 fonds signature</span><span class="fc-tag">Photo perso</span><span class="fc-tag">Bokeh</span></div>
+      <div class="kawaii-console" data-label="lumina.theme">
+        <div class="tline"><span class="p">›</span> lumina theme --load</div>
+        <div class="tline info" id="t2l1">&nbsp;</div>
+        <div class="tline warn" id="t2l2">&nbsp;</div>
+        <div class="tline ok" id="t2l3">&nbsp;</div>
+      </div>
+    </div>
+    <div class="feat-card">
+      <div class="fc-icon">💖</div>
+      <div class="fc-title">Petits bonus mignons</div>
+      <div class="fc-desc">Sons kawaii à chaque touche, vibration douce, animations de cœurs, mode une main et clavier d'émojis à thème (cœurs, kawaii, sparkles...).</div>
+      <div class="fc-tags"><span class="fc-tag">Sons doux</span><span class="fc-tag">Émojis à thème</span><span class="fc-tag">Mode une main</span></div>
+      <div class="kawaii-console" data-label="lumina.extras">
+        <div class="tline"><span class="p">›</span> lumina extras --list</div>
+        <div class="tline info" id="t3l1">&nbsp;</div>
+        <div class="tline warn" id="t3l2">&nbsp;</div>
+        <div class="tline ok" id="t3l3">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STYLE TRANSFORMER -->
+<section id="styletool">
+  <div class="section-label">// Essaie avant de télécharger</div>
+  <h2 class="section-title">Transforme ton texte en direct</h2>
+  <p class="section-sub">Un aperçu des styles d'écriture de Lumina: tape quelque chose et regarde la magie opérer.</p>
+  <div class="style-box">
+    <input type="text" id="styleInput" class="style-input" placeholder="Écris ici, par exemple : hello bestie ♡" maxlength="60" value="hello bestie">
+    <div class="style-tabs" id="styleTabs">
+      <button class="style-tab active" data-style="bold" onclick="setStyle(this,'bold')">✨ Gras romantique</button>
+      <button class="style-tab" data-style="script" onclick="setStyle(this,'script')">🎀 Script élégant</button>
+      <button class="style-tab" data-style="bubble" onclick="setStyle(this,'bubble')">💗 Lettres bulle</button>
+      <button class="style-tab" data-style="fullwidth" onclick="setStyle(this,'fullwidth')">🌸 Espacé glamour</button>
+      <button class="style-tab" data-style="smallcaps" onclick="setStyle(this,'smallcaps')">🦢 Petites capitales</button>
+      <button class="style-tab" data-style="mono" onclick="setStyle(this,'mono')">⌨️ Style clavier</button>
+      <button class="style-tab" data-style="sparkle" onclick="setStyle(this,'sparkle')">⋆｡ Sparkle décor</button>
+    </div>
+    <div class="style-output">
+      <span id="styleOutput">𝐡𝐞𝐥𝐥𝐨 𝐛𝐞𝐬𝐭𝐢𝐞</span>
+      <button class="style-copy" id="styleCopy" onclick="copyStyle()">Copier</button>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-label">// Un aperçu de l'app</div>
+  <h2 class="section-title">Ça ressemble à quoi, Lumina ?</h2>
+  <p class="section-sub">Quelques écrans de l'application, directement depuis le clavier et les réglages.</p>
+  <div class="gallery-grid">
+    <div class="phone-card">
+      <div class="phone-frame"><!-- IMAGE 1 -- Accueil & activation : remplace juste l'URL ci-dessous par la tienne si besoin -->
+      <img src="https://i.imgur.com/Sv5wAvl.png" alt="Écran d'accueil Lumina Keyboard"></div>
+      <div class="phone-caption">Accueil &amp; activation</div>
+    </div>
+    <div class="phone-card">
+      <div class="phone-frame"><!-- IMAGE 2 -- Fonds prédéfinis : remplace juste l'URL ci-dessous par la tienne si besoin -->
+      <img src="https://i.imgur.com/KxVZEm6.png" alt="Choix des thèmes"></div>
+      <div class="phone-caption">Fonds prédéfinis</div>
+    </div>
+    <div class="phone-card">
+      <div class="chip-card">
+        <div class="chip-card-icon">💌</div>
+        <div class="chip-card-title">Émojis à thème</div>
+        <div class="chip-list">
+          <span class="chip">♡ Cœurs</span>
+          <span class="chip">✨ Kawaii</span>
+          <span class="chip">✦ Sparkles</span>
+          <span class="chip">😊 Visages</span>
+          <span class="chip">🐱 Animaux</span>
+          <span class="chip">🌸 Nature</span>
+          <span class="chip">⊕ Symboles</span>
+          <span class="chip">🍓 Food</span>
+          <span class="chip">✎ Textes</span>
+        </div>
+      </div>
+      <div class="phone-caption">9 catégories d'émojis</div>
+    </div>
+    <div class="phone-card">
+      <div class="phone-frame"><!-- IMAGE 3 -- Réglages & style d'écriture : remplace juste l'URL ci-dessous par la tienne si besoin -->
+      <img src="https://i.imgur.com/Xf4cjPn.png" alt="Réglages de comportement"></div>
+      <div class="phone-caption">Réglages &amp; style d'écriture</div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALL STRIP -->
+<div class="install-strip">
+  <div class="strip-label">// Lumina en quelques chiffres</div>
+  <div class="strip-grid">
+    <div class="strip-item"><div class="val">8+</div><div class="lbl">Styles d'écriture</div></div>
+    <div class="strip-item"><div class="val">6</div><div class="lbl">Fonds signature</div></div>
+    <div class="strip-item"><div class="val">100%</div><div class="lbl">Pastel &amp; kawaii</div></div>
+    <div class="strip-item"><div class="val">0</div><div class="lbl">Pub intrusive</div></div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-label">// Questions fréquentes</div>
+  <h2 class="section-title">Tout ce que tu te demandes</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Lumina fonctionne sur iOS et Android ?</span><span class="faq-icon">+</span></button>
+      <div class="faq-a">Oui ! Lumina Keyboard est disponible aussi bien sur iPhone que sur les téléphones Android, avec la même expérience coquette des deux côtés.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Pourquoi le clavier demande-t-il "l'accès complet" ?</span><span class="faq-icon">+</span></button>
+      <div class="faq-a">iOS et Android demandent cette autorisation à tous les claviers tiers pour permettre les thèmes personnalisés et les sons. Lumina ne collecte pas ce que tu tapes.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Le micro sert à quoi exactement ?</span><span class="faq-icon">+</span></button>
+      <div class="faq-a">Uniquement à la dictée vocale, pour te permettre de parler au lieu d'écrire quand tu le souhaites. Il n'est jamais activé en arrière-plan.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Puis-je mettre ma propre photo en fond de clavier ?</span><span class="faq-icon">+</span></button>
+      <div class="faq-a">Bien sûr ! Dans l'onglet Thèmes, choisis "Photo personnalisée" et sélectionne une image depuis ta galerie. Tu peux ensuite ajuster l'opacité et le flou.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Est-ce que l'app est vraiment gratuite ?</span><span class="faq-icon">+</span></button>
+      <div class="faq-a">Oui, complètement. Tous les thèmes, tous les styles d'écriture et tous les petits bonus de Lumina sont inclus gratuitement, sans abonnement ni achat caché.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Comment changer de style d'écriture au quotidien ?</span><span class="faq-icon">+</span></button>
+      <div class="faq-a">Une fois Lumina activé comme clavier par défaut, un raccourci sur le clavier te permet de basculer entre tes styles favoris en un seul tap.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section id="download">
+  <div class="section-label">// Prête à essayer ?</div>
+  <h2 class="section-title">Télécharge Lumina Keyboard</h2>
+  <div class="dl-card">
+    <div class="dl-body">
+      <img src="https://i.imgur.com/lbxd82K.png" alt="Logo Lumina" class="dl-logo-small">
+      <div class="dl-name">LUMINA</div>
+      <div class="dl-ver">// Coquette Aesthetic 2026 · iOS &amp; Android</div>
+      <p class="dl-desc">Un clavier. Une installation. Une touche de magie à chaque message.<br>Active-le en moins de 2 minutes, sans compte requis.</p>
+      <div class="dl-buttons">
+        <a href="LuminaKeyboard.ipa" download="LuminaKeyboard.ipa" class="btn-dl alt" onclick="launchConfetti()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.42 2.05-1.06 2.79-.75.87-1.98 1.55-3.02 1.46-.13-1.1.42-2.24 1.06-2.96.75-.86 2.04-1.5 3.02-1.29zM20.5 17.29c-.44 1.02-.97 2-1.66 2.94-.94 1.28-1.92 2.55-3.46 2.58-1.5.03-1.98-.89-3.7-.89-1.72 0-2.25.86-3.67.92-1.48.06-2.6-1.38-3.55-2.65C2.63 17.85 1.4 13.4 3.1 10.4c.85-1.5 2.36-2.44 4-2.47 1.44-.03 2.8.97 3.7.97.89 0 2.55-1.2 4.3-1.02.73.03 2.78.3 4.1 2.23-.11.07-2.44 1.43-2.42 4.27.03 3.4 2.98 4.53 3.02 4.55-.03.08-.47 1.62-1.3 3.36z"/></svg>
+          IOS
+        </a>
+        <a href="LuminaKeyboard.apk" download="LuminaKeyboard.apk" class="btn-dl" onclick="launchConfetti()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.5c-.4.2-.6.6-.6 1v17c0 .4.2.8.6 1l9.5-9.5-9.5-9.5zM14.6 12l2.4-2.4 3.9 2.25c.6.35.6 1.2 0 1.55l-3.9 2.25-2.4-2.4-.35-.35.35-.35zM13.2 13.4l-9.3 9.3c.3.1.7.1 1 0l10.8-6.2-2.5-2.5v-.6zM13.2 10.6v-.6l2.5-2.5-10.8-6.2c-.3-.1-.7-.1-1 0l9.3 9.3z"/></svg>
+          Android
+        </a>
+      </div>
+      <div class="dl-meta">
+        <span>100% gratuite</span><span>Sans pub intrusive</span><span>Sans compte</span>
+      </div>
+      <div class="dl-note" style="margin-top:1.2rem">Le bon fichier se télécharge automatiquement selon le bouton choisi (.ipa pour iOS, .apk pour Android)</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">LUMINA KEYBOARD</div>
+  <div class="footer-sub">✨ Écris avec douceur ✨</div>
+  <div class="footer-links">
+    <a href="#">Confidentialité</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 Lumina Keyboard: fait avec 💕 pour les amoureuses du kawaii.</div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+// ── BOKEH PARTICLES ──
+const cv=document.getElementById('lumina-canvas');
+const cx=cv.getContext('2d');
+let W,H,pts=[],mouse={x:-9999,y:-9999,down:false};
+function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+resize();window.addEventListener('resize',resize);
+const N=Math.min(90,Math.floor(innerWidth*innerHeight/12000));
+const COLS=[{r:255,g:111,b:160},{r:232,g:199,b:122},{r:201,g:168,b:233},{r:255,g:170,b:200}];
+const GLYPHS=['♡','✦','✧'];
+for(let i=0;i<N;i++){
+  const c=COLS[Math.floor(Math.random()*COLS.length)];
+  const isGlyph=Math.random()<.16;
+  pts.push({
+    x:Math.random()*innerWidth,y:Math.random()*innerHeight,
+    vx:(Math.random()-.5)*.3,vy:-Math.random()*.35-.08,
+    r:Math.random()*10+4,cr:c.r,cg:c.g,cb:c.b,
+    tw:Math.random()*Math.PI*2,twS:Math.random()*.02+.01,
+    glyph:isGlyph?GLYPHS[Math.floor(Math.random()*GLYPHS.length)]:null,
+    bx:(Math.random()-.5)*.3
+  });
+}
+document.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY});
+document.addEventListener('mousedown',()=>mouse.down=true);
+document.addEventListener('mouseup',()=>mouse.down=false);
+document.addEventListener('touchmove',e=>{mouse.x=e.touches[0].clientX;mouse.y=e.touches[0].clientY},{passive:true});
+document.addEventListener('touchstart',()=>mouse.down=true,{passive:true});
+document.addEventListener('touchend',()=>mouse.down=false,{passive:true});
+function tick(){
+  cx.clearRect(0,0,W,H);
+  pts.forEach(p=>{
+    const dx=p.x-mouse.x,dy=p.y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(mouse.down&&d<180){const f=(180-d)/180*.7;p.vx+=(-dx/d)*f;p.vy+=(-dy/d)*f}
+    else if(!mouse.down&&d<120&&d>0){const f=(120-d)/120*.4;p.vx+=(dx/d)*f*.3;p.vy+=(dy/d)*f*.3}
+    p.vx=p.vx*.96+p.bx*.04;
+    const spd=Math.sqrt(p.vx*p.vx+p.vy*p.vy);
+    if(spd>2.2){p.vx=p.vx/spd*2.2;p.vy=p.vy/spd*2.2}
+    p.x+=p.vx;p.y+=p.vy;
+    p.tw+=p.twS;
+    if(p.x<-20)p.x=W+20;if(p.x>W+20)p.x=-20;
+    if(p.y<-20){p.y=H+20;p.x=Math.random()*W}
+  });
+  pts.forEach(p=>{
+    const op=.35+.35*Math.sin(p.tw);
+    if(p.glyph){
+      cx.font=(p.r*1.6)+'px sans-serif';
+      cx.fillStyle=`rgba(${p.cr},${p.cg},${p.cb},${op+.15})`;
+      cx.fillText(p.glyph,p.x-p.r*.6,p.y+p.r*.6);
+    }else{
+      const grad=cx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+      grad.addColorStop(0,`rgba(${p.cr},${p.cg},${p.cb},${op})`);
+      grad.addColorStop(1,`rgba(${p.cr},${p.cg},${p.cb},0)`);
+      cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle=grad;cx.fill();
+    }
+  });
+  requestAnimationFrame(tick);
+}
+tick();
+
+// ── NAV ──
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>40));
+
+// ── FEATURE CONSOLES ──
+function termSeq(ids,lines,delay){
+  ids.forEach((id,i)=>setTimeout(()=>{const el=document.getElementById(id);if(el)el.innerHTML=lines[i]||''},delay*i));
+}
+const featObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    termSeq(['t1l1','t1l2','t1l3'],['<span class="p">  </span><span class="info">Analyse de ton style favori...</span>','<span class="p">  </span><span class="warn">✧ 8 styles disponibles</span>','<span class="p">  </span><span class="ok">✓ Style appliqué · prêt à briller<span class="cursor"></span></span>'],550);
+    termSeq(['t2l1','t2l2','t2l3'],['<span class="p">  </span><span class="info">Chargement de Sakura Dream...</span>','<span class="p">  </span><span class="warn">✧ Overlay rose + bokeh activés</span>','<span class="p">  </span><span class="ok">✓ Thème appliqué ♡<span class="cursor"></span></span>'],620);
+    termSeq(['t3l1','t3l2','t3l3'],['<span class="p">  </span><span class="info">Sons doux, vibrations, stickers...</span>','<span class="p">  </span><span class="warn">✧ Mode une main disponible</span>','<span class="p">  </span><span class="ok">✓ 12 petits bonus activés<span class="cursor"></span></span>'],700);
+    featObs.disconnect();
+  });
+},{threshold:.2});
+const fs=document.getElementById('features');
+if(fs)featObs.observe(fs);
+
+const cardObs=new IntersectionObserver(entries=>{
+  entries.forEach((e,idx)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),idx*150)});
+},{threshold:.1});
+document.querySelectorAll('.feat-card').forEach(c=>cardObs.observe(c));
+
+// ── STYLE TRANSFORMER ──
+const stylesDef={
+  bold:{upperBase:0x1D400,lowerBase:0x1D41A,digitBase:0x1D7CE},
+  fullwidth:{upperBase:0xFF21,lowerBase:0xFF41,digitBase:0xFF10,space:'\u3000'},
+  bubble:{upperBase:0x24B6,lowerBase:0x24D0},
+  script:{upperBase:0x1D4D0,lowerBase:0x1D4EA},
+  mono:{upperBase:0x1D670,lowerBase:0x1D68A,digitBase:0x1D7F6}
+};
+const smallCapsMap='ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘqʀꜱᴛᴜᴠᴡxʏᴢ';
+let currentStyle='bold';
+function transformText(text,styleKey){
+  if(styleKey==='sparkle'){
+    return '⋆｡°✩ '+text+' ✩°｡⋆';
+  }
+  return Array.from(text).map(ch=>{
+    if(styleKey==='smallcaps'){
+      if(ch>='a'&&ch<='z')return smallCapsMap[ch.charCodeAt(0)-97];
+      return ch;
+    }
+    const s=stylesDef[styleKey];
+    const code=ch.charCodeAt(0);
+    if(ch>='A'&&ch<='Z')return String.fromCodePoint(s.upperBase+(code-65));
+    if(ch>='a'&&ch<='z')return String.fromCodePoint(s.lowerBase+(code-97));
+    if(ch>='0'&&ch<='9'){
+      if(styleKey==='bubble'){
+        if(ch==='0')return String.fromCodePoint(0x24EA);
+        return String.fromCodePoint(0x2460+(code-49));
+      }
+      if(s.digitBase)return String.fromCodePoint(s.digitBase+(code-48));
+      return ch;
+    }
+    if(ch===' '&&styleKey==='fullwidth')return s.space;
+    return ch;
+  }).join('');
+}
+function renderStyle(){
+  const input=document.getElementById('styleInput').value||'hello bestie';
+  document.getElementById('styleOutput').textContent=transformText(input,currentStyle);
+}
+function setStyle(btn,styleKey){
+  currentStyle=styleKey;
+  document.querySelectorAll('.style-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderStyle();
+}
+document.getElementById('styleInput').addEventListener('input',renderStyle);
+function copyStyle(){
+  navigator.clipboard.writeText(document.getElementById('styleOutput').textContent).then(()=>{
+    const b=document.getElementById('styleCopy');b.textContent='Copié ✓';setTimeout(()=>b.textContent='Copier',2000);
+  });
+}
+window.setStyle=setStyle;
+window.copyStyle=copyStyle;
+renderStyle();
+
+// ── FAQ ──
+function toggleFaq(btn){
+  const item=btn.closest('.faq-item');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+window.toggleFaq=toggleFaq;
+
+// ── GENERIQUE SMOOTH SCROLLER ──
+(function(){
+  const track = document.getElementById('gen-track');
+  if(!track) return;
+  const clone = track.innerHTML;
+  track.innerHTML = clone + clone;
+  let pos = 0;
+  const speed = 0.2;
+  let paused = false;
+  track.parentElement.addEventListener('mouseenter', () => paused = true);
+  track.parentElement.addEventListener('mouseleave', () => paused = false);
+  const halfH = track.scrollHeight / 2;
+  function scrollGen(){
+    if(!paused) {
+      pos += speed;
+      if(pos >= halfH) pos = 0;
+      track.style.transform = 'translateY(-' + pos + 'px)';
+    }
+    requestAnimationFrame(scrollGen);
+  }
+  scrollGen();
+})();
+
+// ── DOWNLOAD (confetti flourish only — the real .ipa/.apk download is handled natively by the button's href+download attribute) ──
+window.launchConfetti = launchConfetti;
+
+// ── HEART CONFETTI ──
+function launchConfetti(){
+  const cc=document.getElementById('confetti-canvas');
+  cc.width=W;cc.height=H;cc.style.opacity='1';
+  const cx2=cc.getContext('2d');
+  const cols=['#ff6fa0','#e8477e','#e8c77a','#c9a8e9','#ffd6e8'];
+  const glyphs=['♡','✦','✧','💕'];
+  const pcs=Array.from({length:90},()=>({x:Math.random()*W,y:-Math.random()*200,size:Math.random()*14+10,vx:(Math.random()-.5)*3,vy:Math.random()*3+2,angle:Math.random()*360,va:(Math.random()-.5)*6,color:cols[Math.floor(Math.random()*cols.length)],glyph:glyphs[Math.floor(Math.random()*glyphs.length)],op:1}));
+  let fr=0;
+  function draw(){
+    cx2.clearRect(0,0,W,H);fr++;let alive=0;
+    pcs.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.vy+=.06;p.angle+=p.va;
+      if(p.y>H)p.op-=.05;
+      if(p.op<=0)return;
+      alive++;
+      cx2.save();cx2.globalAlpha=Math.max(0,p.op);cx2.translate(p.x,p.y);cx2.rotate(p.angle*Math.PI/180);
+      cx2.font=p.size+'px sans-serif';cx2.fillStyle=p.color;cx2.fillText(p.glyph,-p.size/2,p.size/2);
+      cx2.restore();
+    });
+    if(alive>0&&fr<260)requestAnimationFrame(draw);else cc.style.opacity='0';
+  }
+  draw();
+}
+})();
+</script>
+</body>
+</html>
